@@ -25,12 +25,14 @@ const Create = () => {
   let iterations = document.createElement("input");
   iterations.id = "iterations";
   iterations.type = "number";
+  iterations.value = "100";
   container.appendChild(iterations);
 
   container.appendChild(document.createElement("h1")).textContent = "Tolerance";
   let tolerance = document.createElement("input");
   tolerance.id = "tolerance";
   tolerance.type = "number";
+  tolerance.value = "1e-10";
   container.appendChild(tolerance);
 
   container.appendChild(document.createElement("br"));
@@ -56,25 +58,18 @@ const Calculate = (n) => {
   }
   const tolerance = document.getElementById("tolerance").value;
   const iterations = document.getElementById("iterations").value;
-  Jacobi(A, b, x, lastX, iterations, tolerance);
-  Seidel(A, b, x, lastX, iterations, tolerance);
+  document.getElementById("output").innerHTML = "";
+  Jacobi(A, b, n, x, lastX, iterations, tolerance);
+  document.getElementById("output").appendChild(document.createElement("br"));
+  Seidel(A, b, n, x, lastX, iterations, tolerance);
 };
 
-const A = [
-  [6.72, -2.22, 1.48],
-  [-0.12, 5.71, -1.31],
-  [0.12, 1.23, -5.51],
-];
-const b = [2.05, 1.11, 1.01];
-const x = [0, 0, 0];
-const lastX = [0, 0, 0];
-const iterations = 100;
-const tolerance = 1e-10;
+const Jacobi = (A, b, n, x, lastX, iterations, tolerance) => {
+  let output = document.getElementById("output");
+  output.appendChild(document.createElement("h1")).textContent =
+    "Jacobi iteration";
 
-const Jacobi = (A, b, x, lastX, iterations, tolerance) => {
-  const n = A.length;
   let k = 1;
-
   while (k <= iterations) {
     for (let i = 0; i < n; i++) {
       let sum = 0;
@@ -84,7 +79,6 @@ const Jacobi = (A, b, x, lastX, iterations, tolerance) => {
           sum += -A[i][j] * lastX[j];
         }
       }
-
       x[i] = (sum + b[i]) / A[i][i];
     }
 
@@ -92,8 +86,10 @@ const Jacobi = (A, b, x, lastX, iterations, tolerance) => {
     for (let i = 0; i < n; i++) {
       norm += Math.pow(x[i] - lastX[i], 2);
     }
-    norm = Math.sqrt(norm);
-    if (norm < tolerance) {
+    if (Math.sqrt(norm) < tolerance) {
+      let iter = document.createElement("p");
+      iter.textContent = `${k} iterations done`;
+      output.appendChild(iter);
       console.log(`${k} iterations done.`);
       break;
     }
@@ -101,13 +97,22 @@ const Jacobi = (A, b, x, lastX, iterations, tolerance) => {
     lastX = [...x];
     k++;
   }
+
   x.map((val, i) => console.log(`x${i + 1} = ${val}`));
+  x.map((val, i) => {
+    const p = document.createElement("p");
+    p.textContent = `x${i + 1} = ${val}`;
+    output.appendChild(p);
+  });
 };
 
-const Seidel = (A, b, x, lastX, iterations, tolerance) => {
-  const n = A.length;
-  let k = 1;
+const Seidel = (A, b, n, x, lastX, iterations, tolerance) => {
+  document
+    .getElementById("output")
+    .appendChild(document.createElement("h1")).textContent =
+    "Gauss-Seidel iteration";
 
+  let k = 1;
   while (k <= iterations) {
     for (let i = 0; i < n; i++) {
       let sum1 = 0;
@@ -119,7 +124,6 @@ const Seidel = (A, b, x, lastX, iterations, tolerance) => {
       for (let j = i + 1; j < n; j++) {
         sum2 += A[i][j] * lastX[j];
       }
-
       x[i] = (-sum1 - sum2 + b[i]) / A[i][i];
     }
 
@@ -127,8 +131,10 @@ const Seidel = (A, b, x, lastX, iterations, tolerance) => {
     for (let i = 0; i < n; i++) {
       norm += Math.pow(x[i] - lastX[i], 2);
     }
-    norm = Math.sqrt(norm);
-    if (norm < tolerance) {
+    if (Math.sqrt(norm) < tolerance) {
+      let iter = document.createElement("p");
+      iter.textContent = `${k} iterations done`;
+      output.appendChild(iter);
       console.log(`${k} iterations done.`);
       break;
     }
@@ -136,5 +142,11 @@ const Seidel = (A, b, x, lastX, iterations, tolerance) => {
     lastX = [...x];
     k++;
   }
+
   x.map((val, i) => console.log(`x${i + 1} = ${val}`));
+  x.map((val, i) => {
+    const p = document.createElement("p");
+    p.textContent = `x${i + 1} = ${val}`;
+    output.appendChild(p);
+  });
 };
