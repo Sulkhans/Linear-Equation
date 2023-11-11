@@ -8,12 +8,20 @@
   </head>
   <script src="./index.js"></script>
   <body style="font-family: monospace">
-    <select name="size" id="size" onchange="Create()">
-      <option selected disabled>Select size</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-    </select>
-    <div id="container" class="container"></div>
+    <main>
+      <section>
+        <h1 class="title">Linear equation calculator</h1>
+        <label>n =</label>
+        <select name="size" id="size" onchange="Create()">
+          <option selected disabled></option>
+          <option value="2">2</option>
+          <option value="3">3</op5ion>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <div id="container" class="container"></div>
+      </section>
+      <section id="output" class="output"></section>
+    </main>
   </body>
 </html>
