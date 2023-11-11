@@ -1,16 +1,52 @@
 * {
   box-sizing: border-box;
 }
+.title {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+label {
+  font-size: 1.25rem;
+}
+main {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10rem;
+  margin: 1rem;
+}
 select {
   font-size: 1rem;
+  outline: none;
+}
+h1 {
+  margin: 0.5rem 0 0.5rem 0;
 }
 .container > input {
   width: 4rem;
-  margin: 5px;
+  margin: 0.5rem 1rem 0.5rem 0;
   font-size: 1rem;
+  border: 1px solid;
   outline: none;
 }
 button {
   font-size: 1rem;
-  margin: 2rem 0;
+  font-weight: bold;
+  font-family: monospace;
+  margin: 1rem 0;
+  background-color: transparent;
+  border: 1px solid;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  transition: color 0.3s linear;
+}
+button:hover {
+  color: green;
+}
+.output {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+p {
+  letter-spacing: 2px;
 }
