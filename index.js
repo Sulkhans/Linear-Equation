@@ -31,7 +31,6 @@ const Create = () => {
   container.appendChild(document.createElement("h1")).textContent = "Tolerance";
   let tolerance = document.createElement("input");
   tolerance.id = "tolerance";
-  tolerance.type = "number";
   tolerance.value = "1e-10";
   container.appendChild(tolerance);
 
@@ -70,6 +69,7 @@ const Jacobi = (A, b, n, x, lastX, iterations, tolerance) => {
     "Jacobi iteration";
 
   let k = 1;
+  let norm = 0;
   while (k <= iterations) {
     for (let i = 0; i < n; i++) {
       let sum = 0;
@@ -82,11 +82,12 @@ const Jacobi = (A, b, n, x, lastX, iterations, tolerance) => {
       x[i] = (sum + b[i]) / A[i][i];
     }
 
-    let norm = 0;
+    norm = 0;
     for (let i = 0; i < n; i++) {
       norm += Math.pow(x[i] - lastX[i], 2);
     }
-    if (Math.sqrt(norm) < tolerance) {
+    norm = Math.sqrt(norm);
+    if (norm < tolerance) {
       let iter = document.createElement("p");
       iter.textContent = `${k} iterations done`;
       output.appendChild(iter);
@@ -97,13 +98,15 @@ const Jacobi = (A, b, n, x, lastX, iterations, tolerance) => {
     lastX = [...x];
     k++;
   }
-
   x.map((val, i) => console.log(`x${i + 1} = ${val}`));
   x.map((val, i) => {
     const p = document.createElement("p");
     p.textContent = `x${i + 1} = ${val}`;
     output.appendChild(p);
   });
+  const e = document.createElement("p");
+  e.textContent = `ε = ${norm}`;
+  output.appendChild(e);
 };
 
 const Seidel = (A, b, n, x, lastX, iterations, tolerance) => {
@@ -113,6 +116,7 @@ const Seidel = (A, b, n, x, lastX, iterations, tolerance) => {
     "Gauss-Seidel iteration";
 
   let k = 1;
+  let norm = 0;
   while (k <= iterations) {
     for (let i = 0; i < n; i++) {
       let sum1 = 0;
@@ -127,11 +131,12 @@ const Seidel = (A, b, n, x, lastX, iterations, tolerance) => {
       x[i] = (-sum1 - sum2 + b[i]) / A[i][i];
     }
 
-    let norm = 0;
+    norm = 0;
     for (let i = 0; i < n; i++) {
       norm += Math.pow(x[i] - lastX[i], 2);
     }
-    if (Math.sqrt(norm) < tolerance) {
+    norm = Math.sqrt(norm);
+    if (norm < tolerance) {
       let iter = document.createElement("p");
       iter.textContent = `${k} iterations done`;
       output.appendChild(iter);
@@ -149,4 +154,7 @@ const Seidel = (A, b, n, x, lastX, iterations, tolerance) => {
     p.textContent = `x${i + 1} = ${val}`;
     output.appendChild(p);
   });
+  const e = document.createElement("p");
+  e.textContent = `ε = ${norm}`;
+  output.appendChild(e);
 };
